@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mission13.Models
@@ -29,6 +30,18 @@ namespace Mission13.Models
         {
             _context.Remove(bowler);
             _context.SaveChanges();
+        }
+
+        public List<Bowler> GetBowlersFiltered(int teamId)
+        {
+            if (teamId != 0)
+            {
+                return _context.Bowlers.Where(b => b.TeamID == teamId).ToList();
+            }
+            else
+            {
+                return _context.Bowlers.ToList();
+            }
         }
     }
 }

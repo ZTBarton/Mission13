@@ -18,13 +18,26 @@ namespace Mission13.Controllers
             _repo = temp;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int teamId = 0)
         {
-            var blah = _repo.Bowlers.ToList();
+            var bowlers = _repo.GetBowlersFiltered(teamId);
             ViewBag.Teams = _repo.Teams.ToList();
+            ViewBag.FilterId = teamId;
+            if (teamId != 0)
+            {
+                ViewBag.FilterName = _repo.Teams.Single(x => x.TeamID == teamId).TeamName;
+            }
 
-            return View(blah);
+            return View(bowlers);
         }
+
+        //public IActionResult Index()
+        //{
+        //    var blah = _repo.Bowlers.ToList();
+        //    ViewBag.Teams = _repo.Teams.ToList();
+
+        //    return View(blah);
+        //}
 
         [HttpGet]
         public IActionResult AddBowler()
